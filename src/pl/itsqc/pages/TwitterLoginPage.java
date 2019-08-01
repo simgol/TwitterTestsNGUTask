@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -14,7 +13,7 @@ public class TwitterLoginPage extends Page{
     WebElement loginButton;
     @FindBy(xpath="//input[@class=\"js-username-field email-input js-initial-focus\"]")
     WebElement usernameField;
-    @FindBy(className="js-password-field")
+    @FindBy(xpath="//input[@class=\"js-password-field\"]")
     WebElement passwordField;
 
     private final Logger logger = Logger.getLogger(TwitterLoginPage.class);
@@ -31,7 +30,6 @@ public class TwitterLoginPage extends Page{
         logger.info(new StringBuilder("Navigation to ").append(url));
         driver.get(url);
     }
-
     /**
      * login sequence
      * @param login
@@ -41,6 +39,7 @@ public class TwitterLoginPage extends Page{
         wdw.until(ExpectedConditions.visibilityOf(usernameField));
         usernameField.clear();
         usernameField.sendKeys(login);
+        wdw.until(ExpectedConditions.visibilityOf(passwordField));
         passwordField.clear();
         passwordField.sendKeys(password);
         loginButton.click();

@@ -10,7 +10,6 @@ public class TestBase {
     private final Logger logger = Logger.getLogger(TestBase.class);
     WebDriver driver;
     public final String baseUrl = "https://twitter.com/login";
-
     @BeforeTest
     public void setup(){
         Collector collect = new Collector();
@@ -20,11 +19,11 @@ public class TestBase {
         String driverLocation="";
         //based on the OS, point the path of the WebDriver for FF
         if (os.toLowerCase().contains("linux")){
-            driverLocation=ClassLoader.getSystemResource("geckodriver").getPath();
+            driverLocation=ClassLoader.getSystemResource("geckodriver_linux").getPath();
         }else if (os.toLowerCase().contains("windows")){
-            driverLocation=ClassLoader.getSystemResource("geckodriver").getPath();
+            driverLocation=ClassLoader.getSystemResource("geckodriver.exe").getPath();
         }else if(os.toLowerCase().contains("mac")){
-            driverLocation=ClassLoader.getSystemResource("geckodriver").getPath();
+            driverLocation=ClassLoader.getSystemResource("geckodriver_mac").getPath();
         }
         logger.info(new StringBuilder("WebDriver for FireFox path: ").append(driverLocation));
         //env setup
@@ -36,7 +35,6 @@ public class TestBase {
     }
     @AfterTest
     public void cleanup(){
-
         //driver.close();
     }
 }
