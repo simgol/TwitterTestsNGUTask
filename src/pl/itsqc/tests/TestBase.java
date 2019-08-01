@@ -1,4 +1,5 @@
 package pl.itsqc.tests;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterTest;
@@ -6,7 +7,9 @@ import org.testng.annotations.BeforeTest;
 import pl.itsqc.utils.Collector;
 
 public class TestBase {
+    private final Logger logger = Logger.getLogger(TestBase.class);
     WebDriver driver;
+    public final String baseUrl = "https://twitter.com/login";
 
     @BeforeTest
     public void setup(){
@@ -23,7 +26,7 @@ public class TestBase {
         }else if(os.toLowerCase().contains("mac")){
             driverLocation=ClassLoader.getSystemResource("geckodriver").getPath();
         }
-        System.out.println(new StringBuilder("WebDriver for FireFox path: ").append(driverLocation));
+        logger.info(new StringBuilder("WebDriver for FireFox path: ").append(driverLocation));
         //env setup
         System.setProperty(key, driverLocation);
         //init
@@ -33,6 +36,7 @@ public class TestBase {
     }
     @AfterTest
     public void cleanup(){
-        driver.close();
+
+        //driver.close();
     }
 }
