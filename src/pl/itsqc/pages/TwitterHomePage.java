@@ -14,6 +14,8 @@ public class TwitterHomePage extends Page {
     WebElement messageTextfield;
     @FindBy(xpath="//div[@data-testid=\"tweetButtonInline\"]")
     WebElement tweetButton;
+    @FindBy(xpath="//div[@data-testid=\"tweet\"][1]")
+    WebElement firstArticle;
     public TwitterHomePage(WebDriver driver) {
         super(driver);
     }
@@ -35,4 +37,14 @@ public class TwitterHomePage extends Page {
         String currentUrl=driver.getCurrentUrl();
         return currentUrl;
     }
+    /**
+     * gets first message text for assertion: to check if message was correctly added
+     * @return
+     */
+    public String getMessageContent(){
+        String message = firstArticle.getAttribute("innerText");
+        logger.info(new StringBuilder("The last message: ").append(message));
+        return message;
+    }
+
 }

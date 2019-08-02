@@ -3,8 +3,7 @@ package pl.itsqc.tests;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pl.itsqc.pages.TwitterHomePage;
-import pl.itsqc.pages.TwitterLoginPage;
+import pl.itsqc.pages.*;
 import pl.itsqc.utils.Collector;
 
 public class TestSuiteOne extends TestBase {
@@ -13,19 +12,26 @@ public class TestSuiteOne extends TestBase {
     public void VerificationIfUserCanLoginToTwitterAndAddTweet(){
         TwitterLoginPage loginPage = new TwitterLoginPage(driver);
         TwitterHomePage homePage = new TwitterHomePage(driver);
+        TwitterLogoutPage logoutPage = new TwitterLogoutPage(driver);
         Collector collect = new Collector();
         //go to twitter login page and log in user
         loginPage.navigateTo(baseUrl);
         loginPage.login("t1esting@yandex.com", "t1estinG?");
-        //TODO: add assertion, example: Assert.assertEquals(homePage.getUrl(), "https://twitter.com/home");
-        //send tweet
-        StringBuilder messageToBeSend = new StringBuilder("sending message check ").append(collect.getTime());
+        //send tweet: "sending message check" + local time
+        String time=collect.getTime();
+        logger.info(new StringBuilder(time));
+        StringBuilder messageToBeSend = new StringBuilder("sending message check ").append(time);
         homePage.addTwitt(messageToBeSend);
-        //TODO: add assertion, example: Assert.assertEquals(messageToBeSend, messageToBeSend);
+        Assert.assertEquals(homePage.getMessageContent().contains(time), true);
     }
     @Test(description = "Verification if a logged user is able to follow and unfollow a profile in the application", priority = 1)
     public void VerificationIfUserCanFollowAndUnfollowProfile(){
-        //TODO: add test to follow profile estraklasa and once it's followed sucesfully unfollow it and logout
-        //TODO: add logout in LeftNavigationBar
+        TwitterLeftNavigationBar leftBar = new TwitterLeftNavigationBar(driver);
+        TwitterExplorePage explorePage = new TwitterExplorePage(driver);
+        //go to explore section and search for given twitter account to follow
+        leftBar.navigateToExplorePage();
+        explorePage.searchChannel("ekstraklasa");
+        TwitterLogoutPage logoutPage = new TwitterLogoutPage(driver);
+        //logoutPage.logout();
     }
 }
