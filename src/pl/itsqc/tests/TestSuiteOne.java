@@ -21,17 +21,25 @@ public class TestSuiteOne extends TestBase {
         String time=collect.getTime();
         logger.info(new StringBuilder(time));
         StringBuilder messageToBeSend = new StringBuilder("sending message check ").append(time);
-        homePage.addTwitt(messageToBeSend);
+        homePage.addTweet(messageToBeSend);
         Assert.assertEquals(homePage.getMessageContent().contains(time), true);
     }
-    @Test(description = "Verification if a logged user is able to follow and unfollow a profile in the application", priority = 1)
+    @Test(description = "Verification if a logged user is able to follow and unfollow a profile", priority = 1)
     public void VerificationIfUserCanFollowAndUnfollowProfile(){
         TwitterLeftNavigationBar leftBar = new TwitterLeftNavigationBar(driver);
         TwitterExplorePage explorePage = new TwitterExplorePage(driver);
         //go to explore section and search for given twitter account to follow
         leftBar.navigateToExplorePage();
         explorePage.searchChannel("ekstraklasa");
+        boolean isFollowing = explorePage.followOrUnfollow();
+        //TODO:add assertion
+        if(isFollowing){
+            Assert.assertEquals(explorePage.getButtonState(), "Following");
+        }else{
+            Assert.assertEquals(explorePage.getButtonState(), "Follow");
+        }
         TwitterLogoutPage logoutPage = new TwitterLogoutPage(driver);
-        //logoutPage.logout();
+        logoutPage.logout();
+        Assert.assertEquals(logoutPage.getTextAfterLogout().contains("See what’s happening in the world right now"), true);
     }
 }

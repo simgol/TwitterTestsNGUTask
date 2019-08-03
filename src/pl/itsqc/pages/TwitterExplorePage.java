@@ -2,6 +2,7 @@ package pl.itsqc.pages;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,14 +11,20 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class TwitterExplorePage extends Page {
     final private Logger logger = Logger.getLogger(TwitterLogoutPage.class);
-    final private WebDriverWait wdw = new WebDriverWait(TwitterLoginPage.driver, 10);
+    final private WebDriverWait wdw = new WebDriverWait(TwitterLoginPage.driver, 5);
 
     @FindBy(xpath="//input[@data-testid=\"SearchBox_Search_Input\"]")
-    WebElement searchField;
-    @FindBy(xpath="//div[@data-testid=\"2415691112-follow\"]")
-    WebElement followButton;
-    @FindBy(xpath="//div[@data-testid=\"2415691112-unfollow\"]")
-    WebElement unfollowButton;
+    private WebElement searchField;
+    @FindBy(xpath="//div[contains(@data-testid,\"2415691112\")]")
+    private WebElement followUnfollowButton;
+    @FindBy(xpath="//div[@data-testid =\"2415691112-unfollow\"]")
+    private WebElement followButton;
+    @FindBy(xpath="//div[@data-testid =\"2415691112-follow\"]")
+    private WebElement unfollowButton;
+    @FindBy(xpath="//div[@data-testid=\"confirmationSheetConfirm\"]")
+    private WebElement unfollowConfirmationButton;
+
+
     public TwitterExplorePage(WebDriver driver) {
         super(driver);
     }
@@ -31,8 +38,46 @@ public class TwitterExplorePage extends Page {
         searchField.sendKeys(channelName);
         searchField.sendKeys(Keys.ENTER);
     }
-    //data-testid="2415691112-follow"
-    //data-testid="2415691112-unfollow"
-    //textContent: "Follow"
-    //textContent: "Following"
+    /**
+     * click on follow button if it's available, if not, press unfollow
+     */
+//    public boolean followOrUnfollow(){
+//        boolean status;
+//        try{
+//            wdw.until(ExpectedConditions.visibilityOf(followButton));
+//            followButton.click();
+//            status=true;
+//            logger.info(new StringBuilder("following"));
+//        }catch (Exception e) {
+//            unfollowButton.click();
+//            wdw.until(ExpectedConditions.visibilityOf(unfollowButton));
+//            unfollowConfirmationButton.click();
+//            status=false;
+//            logger.info(new StringBuilder("unfollowing"));
+//        }
+//        return status;
+//    }
+    public boolean followOrUnfollow(){
+        boolean status;
+        wdw.until(ExpectedConditions.visibilityOf(followUnfollowButton));
+        followUnfollowButton.click();
+        try{
+            wdw.until(ExpectedConditions.visibilityOf(unfollowConfirmationButton));
+            unfollowConfirmationButton.click();
+            status=false;
+            logger.info(new StringBuilder("unfollowing"));
+        }catch (Exception e) {
+            status=true;
+            logger.info(new StringBuilder("following"));
+        }
+        return status;
+    }
+    /**
+     *
+     * @return state attribute shows if profile is to be followed or unfollowed
+     */
+    public String getButtonState(){
+        String state=followUnfollowButton.getAttribute("textContent");
+        return state;
+    }
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Default Suite]">
+  <test thread-count="5" name="TwitterTestsNGUTask(failed)">
+    <classes>
+      <class name="pl.itsqc.tests.TestSuiteOne">
+        <methods>
+          <include name="VerificationIfUserCanLoginToTwitterAndAddTweet"/>
+          <include name="setup"/>
+          <include name="cleanup"/>
+        </methods>
+      </class> <!-- pl.itsqc.tests.TestSuiteOne -->
+    </classes>
+  </test> <!-- TwitterTestsNGUTask(failed) -->
+</suite> <!-- Failed suite [Default Suite] -->

@@ -12,7 +12,10 @@ public class TwitterLogoutPage extends Page {
     final private WebDriverWait wdw = new WebDriverWait(TwitterLoginPage.driver, 10);
 
     @FindBy(xpath="//div[@data-testid=\"confirmationSheetConfirm\"]")
-    WebElement logoutButton;
+    private WebElement logoutButton;
+    @FindBy(className = "StaticLoggedOutHomePage-signupBlock")
+    private WebElement signupTitle;
+
     public TwitterLogoutPage(WebDriver driver) {
         super(driver);
     }
@@ -23,5 +26,14 @@ public class TwitterLogoutPage extends Page {
         driver.get("https://twitter.com/logout");
         wdw.until(ExpectedConditions.visibilityOf(logoutButton));
         logoutButton.click();
+    }
+    /**
+     * method needed for assertion to check correctness of logout operation
+     * @return textContent the signup title visible after logout
+     */
+    public String getTextAfterLogout(){
+        wdw.until(ExpectedConditions.visibilityOf(signupTitle));
+        String textContent = signupTitle.getAttribute("textContent");
+        return textContent;
     }
 }

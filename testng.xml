@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Twitter.com - Netguru task" verbose="10">
+    <test name="TestSuiteOne">
+        <classes>
+            <class name="pl.itsqc.tests.TestSuiteOne">
+            </class>
+        </classes>
+    </test>
+</suite>
+

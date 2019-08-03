@@ -11,11 +11,11 @@ public class TwitterHomePage extends Page {
     final private Logger logger = Logger.getLogger(TwitterHomePage.class);
     private final WebDriverWait wdw = new WebDriverWait(TwitterHomePage.driver, 20);
     @FindBy(xpath = "//div[@data-testid=\"tweetTextarea_0\"]")
-    WebElement messageTextfield;
+    private WebElement messageTextfield;
     @FindBy(xpath="//div[@data-testid=\"tweetButtonInline\"]")
-    WebElement tweetButton;
+    private WebElement tweetButton;
     @FindBy(xpath="//div[@data-testid=\"tweet\"][1]")
-    WebElement firstArticle;
+    private WebElement firstArticle;
     public TwitterHomePage(WebDriver driver) {
         super(driver);
     }
@@ -23,7 +23,7 @@ public class TwitterHomePage extends Page {
      * send message
      * @param message
      */
-    public void addTwitt(StringBuilder message){
+    public void addTweet(StringBuilder message){
         wdw.until(ExpectedConditions.visibilityOf(messageTextfield));
         messageTextfield.sendKeys(message);
         tweetButton.click();
@@ -42,9 +42,9 @@ public class TwitterHomePage extends Page {
      * @return
      */
     public String getMessageContent(){
+        wdw.until(ExpectedConditions.visibilityOf(messageTextfield));
         String message = firstArticle.getAttribute("innerText");
         logger.info(new StringBuilder("The last message: ").append(message));
         return message;
     }
-
 }

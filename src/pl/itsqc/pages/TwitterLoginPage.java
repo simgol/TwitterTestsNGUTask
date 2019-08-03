@@ -10,11 +10,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class TwitterLoginPage extends Page{
     //objects definition
     @FindBy (xpath = "//button[@type=\"submit\"]")
-    WebElement loginButton;
+    private WebElement loginButton;
     @FindBy(xpath="//input[@class=\"js-username-field email-input js-initial-focus\"]")
-    WebElement usernameField;
+    private WebElement usernameField;
     @FindBy(xpath="//input[@class=\"js-password-field\"]")
-    WebElement passwordField;
+    private WebElement passwordField;
 
     private final Logger logger = Logger.getLogger(TwitterLoginPage.class);
     private final WebDriverWait wdw = new WebDriverWait(TwitterLoginPage.driver, 10);
@@ -40,7 +40,6 @@ public class TwitterLoginPage extends Page{
         usernameField.clear();
         usernameField.sendKeys(login);
         wdw.until(ExpectedConditions.visibilityOf(passwordField));
-        passwordField.clear();
         passwordField.sendKeys(password);
         loginButton.click();
     }
